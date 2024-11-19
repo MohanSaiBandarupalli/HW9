@@ -60,7 +60,7 @@ jobs:
           push: true
           tags: bms6700/hw9:${{ github.sha }} # Uses the Git SHA for tagging
           platforms: linux/amd64,linux/arm64 # Multi-platform support
-          cache-from: type=registry,ref=kaw393939/devops_demo:cache
+          cache-from: type=registry,ref=bms6700/hw9:cache
           cache-to: type=inline,mode=max
           
       - name: Scan the Docker image
@@ -71,3 +71,5 @@ jobs:
           exit-code: '1' # Fail the job if vulnerabilities are found
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
+        env:
+          TRIVY_CACHE_DIR: /tmp/trivy-cache # Enable caching for Trivy
