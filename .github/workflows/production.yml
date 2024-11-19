@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.10.12] # Define Python versions here
+        python-version: [3.10.12]
     steps:
       - uses: actions/checkout@v4
       
@@ -58,7 +58,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: bms6700/hw9:${{ github.sha }} # Uses the Git SHA for tagging
+          tags: bms6700/hw9:${{ github.sha }} # Update to your repository name
           platforms: linux/amd64,linux/arm64 # Multi-platform support
           cache-from: type=registry,ref=bms6700/hw9:cache
           cache-to: type=inline,mode=max
