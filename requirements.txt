@@ -1,5 +1,5 @@
-fastapi==0.110.0
-starlette==0.36.3
+fastapi==0.115.5
+starlette==0.40.0
 aiofiles==23.2.1
 annotated-types==0.6.0
 anyio==3.7.1
