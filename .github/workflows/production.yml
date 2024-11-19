@@ -60,18 +60,9 @@ jobs:
           push: true
           tags: bms6700/hw9:${{ github.sha }} # Uses the Git SHA for tagging
           platforms: linux/amd64,linux/arm64 # Multi-platform support
-          cache-from: type=registry,ref=kaw393939/devops_demo:cache
+          cache-from: type=registry,ref=bms6700/hw9:cache
           cache-to: type=inline,mode=max
           
-      - name: Cache Trivy DB
-        uses: actions/cache@v4
-        with:
-          path: /tmp/trivy-cache
-          key: trivy-db-${{ github.sha }}
-      
-      - name: Authenticate to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-      
       - name: Scan the Docker image
         uses: aquasecurity/trivy-action@master
         with:
@@ -80,7 +71,3 @@ jobs:
           exit-code: '1' # Fail the job if vulnerabilities are found
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
-        env:
-          TRIVY_CACHE_DIR: /tmp/trivy-cache
-          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db
-          TRIVY_RETRY: 3
