@@ -1,5 +1,5 @@
 # Use an official lightweight Python image.
-FROM python:3.12-slim-bullseye as base
+FROM python:3.12-slim-bullseye AS base
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
@@ -25,6 +25,12 @@ COPY ./requirements.txt /myapp/requirements.txt
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
+# Create a non-root user
+RUN useradd -m myuser
+
+# Pre-create the qr_codes directory and set permissions
+RUN mkdir -p /myapp/qr_codes && chown myuser:myuser /myapp/qr_codes
+
 # Copy the rest of your application's code
 COPY . /myapp
 
@@ -32,8 +38,7 @@ COPY . /myapp
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-# Run the application as a non-root user for security
-RUN useradd -m myuser
+# Switch to the non-root user
 USER myuser
 
 # Tell Docker about the port we'll run on.
