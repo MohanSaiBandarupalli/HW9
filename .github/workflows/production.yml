@@ -65,6 +65,8 @@ jobs:
           
       - name: Scan the Docker image
         uses: aquasecurity/trivy-action@master
+        env:
+           TRIVY_DISABLE_VEX_NOTICE: "true"
         with:
           image-ref: 'bms6700/hw9:${{ github.sha }}'
           format: 'table'
